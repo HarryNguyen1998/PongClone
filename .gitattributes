@@ -1,0 +1,24 @@
+# Modified from https://hextantstudios.com/unity-gitattributes/
+
+# Macro for Unity YAML-based asset files.
+[attr]unityyaml merge=unityyamlmerge diff -text
+
+# Macros for all binary files that should use Git LFS
+[attr]lfs filter=lfs diff=lfs merge=lfs -text
+
+# Default for auto-normalized line endings
+* text=auto
+
+*.meta unityyaml
+*.unity unityyaml
+*.prefab unityyaml
+*.asset unityyaml
+
+*.ogg lfs
+*.wav lfs
+*.fbx lfs
+*.tga lfs
+*.xcf lfs
+*.png lfs
+*.psd lfs
+
