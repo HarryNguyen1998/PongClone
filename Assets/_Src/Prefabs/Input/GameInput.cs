@@ -178,22 +178,33 @@ public partial class @GameInput : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""OpenSettingsMenu"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""13a4dc91-f94d-422d-897a-fbea4472f60c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""df519ab7-a518-4f09-b7c5-e04a464bab35"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardLeft&GamepadLeft;KeyboardRight&GamepadRight"",
+                    ""action"": ""OpenSettingsMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7a20aaf-a5ef-4a87-b2c6-68e3929225c6"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""OpenSettingsMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

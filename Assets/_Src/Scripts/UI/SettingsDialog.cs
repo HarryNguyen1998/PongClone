@@ -83,19 +83,23 @@ public class SettingsDialog : MonoBehaviour
 
     public void SetResolution(int index)
     {
+#if !UNITY_WEBGL
         _tempChanges.ResolutionIndex = index;
         Screen.SetResolution(_resolutions[index].width, _resolutions[index].height, Screen.fullScreen);
         _tempChanges.AspectRatio = (float)Screen.width / Screen.height;
         
         ResolutionChanged?.Invoke(_tempChanges.AspectRatio);
         IsDirty = true;
+#endif
     }
 
     public void SetFullScreen(bool isFullScreen)
     {
+#if !UNITY_WEBGL
         Screen.fullScreen = isFullScreen;
         _tempChanges.IsFullScreen = isFullScreen;
         IsDirty = true;
+#endif
     }
 
     public void SetLeftPad(bool isAIControlled)

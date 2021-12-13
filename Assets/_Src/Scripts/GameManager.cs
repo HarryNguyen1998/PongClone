@@ -118,6 +118,9 @@ public sealed class GameManager : MonoBehaviour
             case GameState.kGameplay:
             {
                 // Transition between gameplay and settings won't reload the Scene.
+#if UNITY_WEBGL
+                CurrentSettings.IsFullScreen = Screen.fullScreen;
+#endif
                 if (!IsInGame)
                 {
                     ScoreLeft = 0;
