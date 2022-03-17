@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
@@ -14,10 +12,6 @@ public enum GameState
     kQuit,
 }
 
-/// <summary>
-/// Update the scores, handle state change logic, and raise UI event when state change.
-/// Singleton only works when put into Preload scene.
-/// </summary>
 public sealed class GameManager : MonoBehaviour
 {
     // References
@@ -26,70 +20,35 @@ public sealed class GameManager : MonoBehaviour
     // Members
     public event Action<GameState> GameStateChanged;
     public event Action<bool> RoundWasOver;
-    public GameplaySettingsPOD CurrentSettings { get; set; } = new GameplaySettingsPOD();
+
+    public GameplaySettingsPOD CurrentSettings { get; set; }
     public int ScoreLeft { get; private set; }
     public int ScoreRight { get; private set; }
     public bool LeftWon { get; private set; }
     public bool IsInGame { get; set; }
     public GameState CurrentState { get; private set; }
-    public static GameManager Instance { get; private set; }
 
     bool _isPaused;
-    bool _hasGameStarted;
 
+    public static GameManager Instance { get; private set; }
     void Awake()
     {
-        if (_hasGameStarted)
-            return;
+        if (!Instance)
+            Instance = this;
+        else
+            Destroy(gameObject);
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
         _isPaused = false;
-        LoadFromFile();
+    }
 
-        _hasGameStarted = true;
-
-#if UNITY_EDITOR
-        if (DebugPreload.otherScene > 0)
-        {
-            Debug.Log($"---------Loading current scene {DebugPreload.otherScene}---------");
-            SceneManager.LoadSceneAsync(DebugPreload.otherScene);
-            return;
-        }
-#endif
-
-        SceneManager.LoadSceneAsync("PongClone", LoadSceneMode.Additive);
+    void Start()
+    {
+        ResetSettings();
     }
 
     public void ResetSettings()
     {
-        CurrentSettings = _gameSettingsSO.DefaultSettings.DeepCopy();
-        SaveToFile();
-    }
-
-    public void SaveToFile()
-    {
-#if !UNITY_WEBGL
-        FileManager.TryWriteFile("SettingsData.dat", CurrentSettings.ToJson());
-#endif
-    }
-
-    public void LoadFromFile()
-    {
-#if !UNITY_WEBGL
-        // File doesn't exist
-        if (!FileManager.TryReadFile("SettingsData.dat", out string json))
-        {
-            FileManager.TryWriteFile("SettingsData.dat", _gameSettingsSO.DefaultSettings.ToJson());
-            CurrentSettings = _gameSettingsSO.DefaultSettings.DeepCopy();
-        }
-        else
-        {
-            CurrentSettings.FromJson(json);
-        }
-#else
-        CurrentSettings = _gameSettingsSO.DefaultSettings.DeepCopy();
-#endif
+        CurrentSettings = _gameSettingsSO.DefaultSettings;
     }
 
     public void ChangeState(GameState newState)

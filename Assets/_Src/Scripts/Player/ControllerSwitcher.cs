@@ -9,7 +9,6 @@ public class ControllerSwitcher : MonoBehaviour
     [SerializeField] AIController _aiController;
 
     PadData _padData;
-    GameManager _gameManager;
 
     // Class members
     Vector3 _originalPos;
@@ -17,18 +16,17 @@ public class ControllerSwitcher : MonoBehaviour
     void Awake()
     {
         _padData = GetComponent<PadData>();
-        _gameManager = GameManager.Instance;
     }
 
     void OnEnable()
     {
         SettingsDialog.GameSettingsChanged += SetAIOrPlayer;
-        _gameManager.GameStateChanged += DisableMovement;
+        GameManager.Instance.GameStateChanged += DisableMovement;
     }
 
     void OnDisable()
     {
-        _gameManager.GameStateChanged -= DisableMovement;
+        GameManager.Instance.GameStateChanged -= DisableMovement;
         SettingsDialog.GameSettingsChanged -= SetAIOrPlayer;
         _playerController.enabled = false;
         _aiController.enabled = false;
@@ -45,7 +43,7 @@ public class ControllerSwitcher : MonoBehaviour
     {
         if (_padData.IsLeftPad)
         {
-            if (_gameManager.CurrentSettings.IsLeftPadAIControlled)
+            if (GameManager.Instance.CurrentSettings.IsLeftPadAIControlled)
             {
                 UseAIController();
             }
@@ -56,7 +54,7 @@ public class ControllerSwitcher : MonoBehaviour
         }
         else
         {
-            if (_gameManager.CurrentSettings.IsRightPadAIControlled)
+            if (GameManager.Instance.CurrentSettings.IsRightPadAIControlled)
             {
                 UseAIController();
             }

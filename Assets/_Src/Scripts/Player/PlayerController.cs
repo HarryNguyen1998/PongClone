@@ -7,9 +7,6 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D _rb;
 
-    GameManager _gameState;
-
-
     Vector2 _dir;
 
     [SerializeField] Vector2 _normal;
@@ -18,7 +15,6 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
 
-        _gameState = GameManager.Instance;
     }
 
     void OnEnable()
@@ -35,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rb.velocity = _dir * _gameState.CurrentSettings.PadSpd;
+        _rb.velocity = _dir * GameManager.Instance.CurrentSettings.PadSpd;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

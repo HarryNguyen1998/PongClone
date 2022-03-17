@@ -21,6 +21,6 @@ public class MenuSwitcher : MonoBehaviour
 
     public void FromMainMenuBtn()
     {
-        UIController.Instance.FromMainMenuBtn();
+        UIManager.Instance.FromMainMenuBtn();
     }
 }

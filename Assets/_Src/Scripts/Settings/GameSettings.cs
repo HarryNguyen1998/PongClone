@@ -8,9 +8,7 @@ public class GameSettings : ScriptableObject
     public Material LeftPadMat;
     public Material RightPadMat;
     public float AnimationCycle;
-
-    [SerializeField] private GameplaySettingsPOD _default = new GameplaySettingsPOD(true, false, 3, 7.0f, 15.0f);
-    public GameplaySettingsPOD DefaultSettings { get { return _default; } }
+    public GameplaySettingsPOD DefaultSettings = new GameplaySettingsPOD(true, true, 3, 16, 18, 2, 1.777778f, false);
 
     public float WaitTimeBetweenEachRound
     {

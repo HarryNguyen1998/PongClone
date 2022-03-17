@@ -16,7 +16,6 @@ public class BallController : MonoBehaviour
     float _roundStartSpd = 9.0f;
     Vector2 _originalPos;
     float _spd;
-    GameManager _gameManager;
     float _time = 0.0f;
     bool _isResetting;
 
@@ -26,7 +25,6 @@ public class BallController : MonoBehaviour
 
     void Awake()
     {
-        _gameManager = GameManager.Instance;
         _rb = GetComponent<Rigidbody2D>();
         _audioPlayer = FindObjectOfType<AudioPlayer>();
     }
@@ -52,21 +50,21 @@ public class BallController : MonoBehaviour
 
     void OnEnable()
     {
-        _gameManager.RoundWasOver += Reset;
-        _gameManager.GameStateChanged += DisableMovement;
+        GameManager.Instance.RoundWasOver += Reset;
+        GameManager.Instance.GameStateChanged += DisableMovement;
     }
 
     void OnDestroy()
     {
-        _gameManager.GameStateChanged -= DisableMovement;
-        _gameManager.RoundWasOver -= Reset;
+        GameManager.Instance.GameStateChanged -= DisableMovement;
+        GameManager.Instance.RoundWasOver -= Reset;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag(GameTags.Pad))
         {
-            _spd = _gameManager.CurrentSettings.BallSpd;
+            _spd = GameManager.Instance.CurrentSettings.BallSpd;
             Dir = Vector2.Reflect(Dir, collision.GetContact(0).normal);
 
             // Every 7s increases ball speed by _addedAmount
@@ -85,9 +83,10 @@ public class BallController : MonoBehaviour
 
     void FixedUpdate()
     {
-#if UNITY_EDITOR
-        Debug.DrawLine(_posPrevFrame, _posPrevFrame + Dir);
-#endif
+        if (Application.isEditor)
+            Debug.DrawLine(_posPrevFrame, _posPrevFrame + Dir);
+
+
         if (_isResetting)
             return;
 

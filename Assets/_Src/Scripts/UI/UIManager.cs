@@ -1,27 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// Manage the active state of each menu. Singleton only works when put into Preload scene.
-/// </summary>
-public class UIController : MonoBehaviour
+public class UIManager : MonoBehaviour
 {
     ModalWindowPanel _modalWindowPanel;
     List<MenuData> _menus = new List<MenuData>();
     MenuData _lastActiveMenu;
 
-    public static UIController Instance { get; private set; }
+    public static UIManager Instance { get; private set; }
     void Awake()
     {
         if (!Instance)
-        {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
         else
             Destroy(gameObject);
     }

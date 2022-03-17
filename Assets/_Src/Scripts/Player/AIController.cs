@@ -10,7 +10,6 @@ public class AIController : MonoBehaviour
     // Referernces
     Transform _ballTransform;
     Rigidbody2D _rb;
-    GameManager _gameState;
 
     // Class members
     Vector2 _dir;
@@ -19,7 +18,6 @@ public class AIController : MonoBehaviour
     {
         _ballTransform = GameObject.FindWithTag(GameTags.Ball).GetComponent<Transform>();
         _rb = GetComponent<Rigidbody2D>();
-        _gameState = GameManager.Instance;
     }
 
     void FixedUpdate()
@@ -30,7 +28,7 @@ public class AIController : MonoBehaviour
             _dir = Vector2.down;
         else
             _dir = Vector2.zero;
-        _rb.velocity = Vector2.Lerp(_rb.velocity, _dir * _gameState.CurrentSettings.PadSpd, 0.15f);
+        _rb.velocity = Vector2.Lerp(_rb.velocity, _dir * GameManager.Instance.CurrentSettings.PadSpd, 0.15f);
         ballYPos = _ballTransform.position.y;
         CurrentYPos = transform.position.y;
     }

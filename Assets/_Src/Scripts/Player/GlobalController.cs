@@ -25,7 +25,7 @@ public class GlobalController : MonoBehaviour
         }
         else
         {
-            UIController.Instance.ShowApplyOrNo(GameState.kGameplay);
+            UIManager.Instance.ShowApplyOrNo(GameState.kGameplay);
         }
     }
 }

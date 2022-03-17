@@ -6,11 +6,11 @@ public class MenuData : MonoBehaviour
 
     private void Awake()
     {
-        UIController.Instance.RegisterMenu(this);
+        UIManager.Instance.RegisterMenu(this);
     }
 
     private void OnDestroy()
     {
-        UIController.Instance.DeregisterMenu(this);
+        UIManager.Instance.DeregisterMenu(this);
     }
 }

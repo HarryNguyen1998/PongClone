@@ -8,12 +8,12 @@ public class ModalWindowPanel : MonoBehaviour
 
     private void Awake()
     {
-        UIController.Instance.RegisterModalWindow(this);
+        UIManager.Instance.RegisterModalWindow(this);
     }
 
     private void OnDestroy()
     {
-        UIController.Instance.DeregisterModalWindow();
+        UIManager.Instance.DeregisterModalWindow();
     }
 
     public void TryShow()

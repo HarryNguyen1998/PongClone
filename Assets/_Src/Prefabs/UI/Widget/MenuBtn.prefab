@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PLAY
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
-  m_sharedMaterial: {fileID: 6996986596012405394, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
+  m_sharedMaterial: {fileID: -2668739835290164794, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -297,5 +297,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3929a48422f1f45ace29897c9f787d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameStateChange: {fileID: 11400000, guid: 4de1981f571617f4a949bddd81536593, type: 2}
   _menuToSwitchTo: 0

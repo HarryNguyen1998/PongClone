@@ -20,12 +20,6 @@ public class GameplayDialog : MonoBehaviour
 
     // Members
     Color _dividerLineOriginalColor;
-    GameManager _gameManager;
-
-    void Awake()
-    {
-        _gameManager = GameManager.Instance;
-    }
 
     void OnEnable()
     {
@@ -51,8 +45,8 @@ public class GameplayDialog : MonoBehaviour
 
     public void ShowRoundCnt()
     {
-        if (_gameManager.IsInGame)
-            _roundCnt.text = "ROUNDS\n" + _gameManager.CurrentSettings.RoundCnt.ToString();
+        if (GameManager.Instance.IsInGame)
+            _roundCnt.text = "ROUNDS\n" + GameManager.Instance.CurrentSettings.RoundCnt.ToString();
         else
             _roundCnt.text = "ROUNDS\n???";
     }
@@ -61,26 +55,26 @@ public class GameplayDialog : MonoBehaviour
     {
         if (leftWon)
         {
-            if (_gameManager.CurrentState == GameState.kGameOverMenu)
+            if (GameManager.Instance.CurrentState == GameState.kGameOverMenu)
             {
                 _leftPadWon.text = "VICTORY";
                 _rightPadWon.text = "DEFEATED";
                 _rightPadWon.gameObject.SetActive(true);
             }
 
-            StartCoroutine(Animate(_leftPadWon, _leftPadScore, _gameManager.ScoreLeft,
+            StartCoroutine(Animate(_leftPadWon, _leftPadScore, GameManager.Instance.ScoreLeft,
                 Slider.Direction.LeftToRight, Slider.Direction.RightToLeft, _animationSettings.LeftPadMat.color));
         }
         else
         {
-            if (_gameManager.CurrentState == GameState.kGameOverMenu)
+            if (GameManager.Instance.CurrentState == GameState.kGameOverMenu)
             {
                 _leftPadWon.text = "DEFEATED";
                 _rightPadWon.text = "VICTORY";
                 _leftPadWon.gameObject.SetActive(true);
             }
 
-            StartCoroutine(Animate(_rightPadWon, _rightPadScore, _gameManager.ScoreRight,
+            StartCoroutine(Animate(_rightPadWon, _rightPadScore, GameManager.Instance.ScoreRight,
                 Slider.Direction.RightToLeft, Slider.Direction.LeftToRight, _animationSettings.RightPadMat.color));
         }
     }
@@ -102,7 +96,7 @@ public class GameplayDialog : MonoBehaviour
         wonText.DOFade(0.0f, _animationSettings.AnimationCycle).SetEase(Ease.InOutSine).SetLoops(4, LoopType.Yoyo)
             .OnComplete(() =>
         {
-            if (_gameManager.CurrentState != GameState.kGameOverMenu)
+            if (GameManager.Instance.CurrentState != GameState.kGameOverMenu)
                 wonText.gameObject.SetActive(false);
         });
 

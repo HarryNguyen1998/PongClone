@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
+
+using UnityEngine.EventSystems;
+
 [CreateAssetMenu]
 public class InputReader : ScriptableObject, GameInput.IGlobalActions, GameInput.IPlayerActions
 {
@@ -73,4 +76,35 @@ public class InputReader : ScriptableObject, GameInput.IGlobalActions, GameInput
         _inputAsset.Player.Disable();
     }
 
+    [SerializeField] GameInput _gameInput;
+    [SerializeField] InputActionReference _actionToRemap;
+
+    InputActionRebindingExtensions.RebindingOperation _rebindingOp;
+    void Rebind()
+    {
+        // OnClick, the GameObject stays selected, which in this case the rebind operation is
+        // triggered again. This prevents that.
+        EventSystem.current.SetSelectedGameObject(null);
+
+        // Rebind is only possible after action is disabled
+        _actionToRemap.action.Disable();
+
+        // button.text = "Press any button"
+
+        _rebindingOp = _actionToRemap.action.PerformInteractiveRebinding()
+            .OnMatchWaitForAnother(0.1f)
+            .OnComplete(operation =>
+                {
+                    //button.text = InputControlPath.ToHumanReadableString(_actionToRemap.action.bindings[0].effectivePath,
+                    //    InputControlPath.HumanReadableStringOptions.OmitDevice);
+
+                    _rebindingOp.Dispose();
+
+                    _actionToRemap.action.Enable();
+                }).Start();
+    }
+
 }
+
+
+

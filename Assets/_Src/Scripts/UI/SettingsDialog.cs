@@ -24,14 +24,11 @@ public class SettingsDialog : MonoBehaviour
     // Members
     public bool IsDirty { get; private set; }
 
-    GameManager _gameManager;
     Resolution[] _resolutions;
     GameplaySettingsPOD _tempChanges;
 
     void Awake()
     {
-        _gameManager = GameManager.Instance;
-
         // Populate resolutions
         int refreshRate = Screen.currentResolution.refreshRate;
         _resolutions = new Resolution[] {
@@ -58,7 +55,7 @@ public class SettingsDialog : MonoBehaviour
 #if UNITY_WEBGL
         _resDropdown.transform.parent.gameObject.SetActive(false);
 #endif
-        if (_gameManager.IsInGame)
+        if (GameManager.Instance.IsInGame)
         {
             _roundCntSlider.interactable = false;
         }
@@ -67,7 +64,7 @@ public class SettingsDialog : MonoBehaviour
             _roundCntSlider.interactable = true;
         }
 
-        _tempChanges = _gameManager.CurrentSettings.DeepCopy();
+        _tempChanges = GameManager.Instance.CurrentSettings;
         UpdateSettingsToUI();
     }
 
@@ -134,28 +131,26 @@ public class SettingsDialog : MonoBehaviour
 
     public void ApplySettings()
     {
-        _gameManager.CurrentSettings = _tempChanges;
-        _gameManager.SaveToFile();
-        _tempChanges = null;
+        GameManager.Instance.CurrentSettings = _tempChanges;
         GameSettingsChanged?.Invoke();
     }
 
     public void ResetSettings()
     {
-        _gameManager.ResetSettings();
+        GameManager.Instance.ResetSettings();
         UpdateSettingsToUI();
     }
 
     public void UpdateSettingsToUI()
     {
-        _resDropdown.value = _gameManager.CurrentSettings.ResolutionIndex;
+        _resDropdown.value = GameManager.Instance.CurrentSettings.ResolutionIndex;
         _resDropdown.RefreshShownValue();
-        _fullScreenToggle.isOn = _gameManager.CurrentSettings.IsFullScreen;
-        _leftPadAIToggle.isOn = _gameManager.CurrentSettings.IsLeftPadAIControlled;
-        _rightPadAIToggle.isOn = _gameManager.CurrentSettings.IsRightPadAIControlled;
-        _roundCntSlider.value = _gameManager.CurrentSettings.RoundCnt;
-        _padSpdSlider.value = _gameManager.CurrentSettings.PadSpd;
-        _ballSpdSlider.value = _gameManager.CurrentSettings.BallSpd;
+        _fullScreenToggle.isOn = GameManager.Instance.CurrentSettings.IsFullScreen;
+        _leftPadAIToggle.isOn = GameManager.Instance.CurrentSettings.IsLeftPadAIControlled;
+        _rightPadAIToggle.isOn = GameManager.Instance.CurrentSettings.IsRightPadAIControlled;
+        _roundCntSlider.value = GameManager.Instance.CurrentSettings.RoundCnt;
+        _padSpdSlider.value = GameManager.Instance.CurrentSettings.PadSpd;
+        _ballSpdSlider.value = GameManager.Instance.CurrentSettings.BallSpd;
         IsDirty = false;
     }
 

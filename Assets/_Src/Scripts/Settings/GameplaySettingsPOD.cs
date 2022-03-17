@@ -2,41 +2,30 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class GameplaySettingsPOD
+public struct GameplaySettingsPOD
 {
-    [SerializeField]
     public bool IsLeftPadAIControlled;
-
-    [SerializeField]
-    public bool IsRightPadAIControlled;
-
-    [SerializeField]
+    public bool IsRightPadAIControlled; 
     public int RoundCnt;
-
-    [SerializeField]
     public float PadSpd;
-
-    [SerializeField]
     public float BallSpd;
-
     public int ResolutionIndex;
-
     public float AspectRatio;
-
     public bool IsFullScreen;
 
-    public GameplaySettingsPOD(bool isLeftPadAI = true, bool isRightPadAI = false, int roundCnt = 3, float padSpd = 16, float ballSpd = 18, int resIndex = 2, float aspectRatio = 1.77778f, bool isFullScreen = false)
+    public GameplaySettingsPOD(bool leftPadAI, bool rightPadAI, int roundCnt, int padSpd, int ballSpd, int resolutionIndex, float aspectRatio, bool isFullScreen)
     {
-        IsLeftPadAIControlled = isLeftPadAI;
-        IsRightPadAIControlled = isRightPadAI;
+        IsLeftPadAIControlled = leftPadAI;
+        IsRightPadAIControlled = rightPadAI;
         RoundCnt = roundCnt;
         PadSpd = padSpd;
         BallSpd = ballSpd;
-        ResolutionIndex = resIndex;
+        ResolutionIndex = resolutionIndex;
         AspectRatio = aspectRatio;
         IsFullScreen = isFullScreen;
     }
 
+    // @todo Perhaps add a save/load from file Config?
     public string ToJson()
     {
         return JsonUtility.ToJson(this);
@@ -45,12 +34,6 @@ public class GameplaySettingsPOD
     public void FromJson(string jsonContents)
     {
         JsonUtility.FromJsonOverwrite(jsonContents, this);
-    }
-
-    public GameplaySettingsPOD DeepCopy()
-    {
-        GameplaySettingsPOD other = (GameplaySettingsPOD)MemberwiseClone();
-        return other;
     }
 
 }

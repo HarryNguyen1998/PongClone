@@ -360,8 +360,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Pad speed
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
-  m_sharedMaterial: {fileID: 6996986596012405394, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
+  m_sharedMaterial: {fileID: -2668739835290164794, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -639,10 +639,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 10.00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
-  m_sharedMaterial: {fileID: 6996986596012405394, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
+  m_sharedMaterial: {fileID: -2668739835290164794, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -666,8 +666,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
