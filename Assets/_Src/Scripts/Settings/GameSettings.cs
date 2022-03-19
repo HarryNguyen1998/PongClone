@@ -10,7 +10,7 @@ public class GameSettings : ScriptableObject
     public float AnimationCycle;
     public GameplaySettingsPOD DefaultSettings = new GameplaySettingsPOD(true, true, 3, 16, 18, 2, 1.777778f, false);
 
-    public float WaitTimeBetweenEachRound
+    public float WaitTimeBetweenRound
     {
         get
         {

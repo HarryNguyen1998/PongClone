@@ -1,32 +1,28 @@
 using UnityEngine;
-using UnityEngine.Assertions;
 
-[RequireComponent(typeof(PadData))]
+// Whether the pad is controlled by AI or player
+[RequireComponent(typeof(PadData), typeof(PlayerController), typeof(AIController))]
 public class ControllerSwitcher : MonoBehaviour
 {
     // Refererences
-    [SerializeField] PlayerController _playerController;
-    [SerializeField] AIController _aiController;
-
     PadData _padData;
-
-    // Class members
-    Vector3 _originalPos;
+    PlayerController _playerController;
+    AIController _aiController;
 
     void Awake()
     {
         _padData = GetComponent<PadData>();
+        _playerController = GetComponent<PlayerController>();
+        _aiController = GetComponent<AIController>();
     }
 
     void OnEnable()
     {
         SettingsDialog.GameSettingsChanged += SetAIOrPlayer;
-        GameManager.Instance.GameStateChanged += DisableMovement;
     }
 
     void OnDisable()
     {
-        GameManager.Instance.GameStateChanged -= DisableMovement;
         SettingsDialog.GameSettingsChanged -= SetAIOrPlayer;
         _playerController.enabled = false;
         _aiController.enabled = false;
@@ -35,7 +31,6 @@ public class ControllerSwitcher : MonoBehaviour
 
     void Start()
     {
-        _originalPos = GetComponent<Transform>().position;
         SetAIOrPlayer();
     }
 
@@ -44,24 +39,16 @@ public class ControllerSwitcher : MonoBehaviour
         if (_padData.IsLeftPad)
         {
             if (GameManager.Instance.CurrentSettings.IsLeftPadAIControlled)
-            {
                 UseAIController();
-            }
             else
-            {
                 UsePlayerController();
-            }
         }
         else
         {
             if (GameManager.Instance.CurrentSettings.IsRightPadAIControlled)
-            {
                 UseAIController();
-            }
             else
-            {
                 UsePlayerController();
-            }
         }
     }
 
@@ -77,10 +64,4 @@ public class ControllerSwitcher : MonoBehaviour
         _aiController.enabled = true;
     }
 
-    void DisableMovement(GameState newState)
-    {
-        if (newState == GameState.kGameOverMenu)
-            enabled = false;
-    }
-    
 }

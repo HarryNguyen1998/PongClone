@@ -1,32 +1,17 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] InputReader _inputReader;
-
+    // References
     Rigidbody2D _rb;
-
+    // Class members
     Vector2 _dir;
-
-    [SerializeField] Vector2 _normal;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-
-    }
-
-    void OnEnable()
-    {
-        _inputReader.MoveEvent += Move;
-        _inputReader.EnableGameplayInput();
-    }
-
-    void OnDisable()
-    {
-        _inputReader.MoveEvent -= Move;
-        _inputReader.DisableGameplayInput();
     }
 
     void FixedUpdate()
@@ -42,9 +27,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Move(Vector2 dir)
+    public void Move(InputAction.CallbackContext ctx)
     {
-        _dir = dir;
+        _dir = ctx.ReadValue<Vector2>();
     }
 
 }

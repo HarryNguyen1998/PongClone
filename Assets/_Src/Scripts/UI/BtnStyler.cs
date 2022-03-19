@@ -3,9 +3,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-/// <summary>
-/// Style text and add subscriber
-/// </summary>
 [RequireComponent(typeof(Button))]
 public class BtnStyler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {

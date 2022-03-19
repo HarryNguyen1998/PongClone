@@ -15,12 +15,12 @@ MonoBehaviour:
   LeftPadMat: {fileID: 2100000, guid: c24556e1e58c2914f9e761870f1712ae, type: 2}
   RightPadMat: {fileID: 2100000, guid: 8bc58cbe95cd1b54e9dbed57a1b38d63, type: 2}
   AnimationCycle: 0.75
-  _default:
+  DefaultSettings:
     IsLeftPadAIControlled: 1
     IsRightPadAIControlled: 1
     RoundCnt: 3
     PadSpd: 16
     BallSpd: 18
     ResolutionIndex: 2
-    AspectRatio: 1.7777778
+    AspectRatio: 1.777778
     IsFullScreen: 0

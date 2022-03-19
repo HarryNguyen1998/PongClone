@@ -6,18 +6,22 @@ public class BallController : MonoBehaviour
 {
     // References
     [SerializeField] GameSettings _gameSettingsSO;
+    [SerializeField] AudioPlayer _audioPlayer;
     Rigidbody2D _rb;
-    AudioPlayer _audioPlayer;
+    Transform _tf;
 
     // Members
-    public Vector2 Dir;
-
     [SerializeField] float _addedAmount = 5.0f;
-    float _roundStartSpd = 9.0f;
-    Vector2 _originalPos;
-    float _spd;
-    float _time = 0.0f;
+    [SerializeField] float _roundStartSpd = 9.0f;
+    Vector2 _startPos;
+
+    Vector2 _dir;
+    public Vector2 Dir { get { return _dir; } }
+
+    float _currentSpd;
+    float _time;
     bool _isResetting;
+    WaitForSeconds _waitTimeBetweenRound;
 
     // Vars used to handle when ball is stuck
     Vector2 _posPrevFrame;
@@ -26,37 +30,32 @@ public class BallController : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _audioPlayer = FindObjectOfType<AudioPlayer>();
+        _tf = GetComponent<Transform>();
     }
 
     void Start()
     {
-        _originalPos = transform.position;
+        _startPos = _tf.position;
 
         // If vec is too horizontal, ball will ping pong between pads, which isn't fun. So, add more angles.
-        Dir = new Vector2(1.0f, Random.Range(-1.0f, 1.0f));
-        if (Dir.y < 0.3f && Dir.y > 0.0f)
-            Dir.y += 0.3f;
-        else if (Dir.y > -0.3f && Dir.y <= 0.0f)
-            Dir.y -= 0.3f;
-        Dir.Normalize();
+        _dir = new Vector2(Mathf.Sign(Random.Range(-1.0f, 1.0f)), Random.Range(-1.0f, 1.0f));
+        if (_dir.y < 0.3f && _dir.y > 0.0f)
+            _dir.y += 0.3f;
+        else if (_dir.y > -0.3f && _dir.y <= 0.0f)
+            _dir.y -= 0.3f;
+        _dir.Normalize();
 
-        // Random which dir it would go 1st.
-        if (Mathf.RoundToInt(Random.value) == 0)
-            Dir.x *= -1.0f;
-
-        _spd = _roundStartSpd;
+        _currentSpd = _roundStartSpd;
+        _waitTimeBetweenRound = new WaitForSeconds(_gameSettingsSO.WaitTimeBetweenRound);
     }
 
     void OnEnable()
     {
         GameManager.Instance.RoundWasOver += Reset;
-        GameManager.Instance.GameStateChanged += DisableMovement;
     }
 
     void OnDestroy()
     {
-        GameManager.Instance.GameStateChanged -= DisableMovement;
         GameManager.Instance.RoundWasOver -= Reset;
     }
 
@@ -64,19 +63,17 @@ public class BallController : MonoBehaviour
     {
         if (collision.collider.CompareTag(GameTags.Pad))
         {
-            _spd = GameManager.Instance.CurrentSettings.BallSpd;
-            Dir = Vector2.Reflect(Dir, collision.GetContact(0).normal);
+            _currentSpd = GameManager.Instance.CurrentSettings.BallSpd;
+            _dir = Vector2.Reflect(_dir, collision.GetContact(0).normal);
 
             // Every 7s increases ball speed by _addedAmount
-            _spd += _addedAmount * (int)(_time / 7);
+            _currentSpd += _addedAmount * (int)(_time / 7);
 
             _audioPlayer.PlayBallHitPadClip();
         }
         else if (collision.collider.CompareTag(GameTags.Wall))
         {
-            WallZone wallData = collision.collider.GetComponent<WallZone>();
-            Dir = Vector2.Reflect(Dir, wallData.Normal);
-
+            _dir = Vector2.Reflect(_dir, collision.GetContact(0).normal);
         }
 
     }
@@ -84,28 +81,27 @@ public class BallController : MonoBehaviour
     void FixedUpdate()
     {
         if (Application.isEditor)
-            Debug.DrawLine(_posPrevFrame, _posPrevFrame + Dir);
-
+            Debug.DrawLine(_posPrevFrame, _posPrevFrame + _dir);
 
         if (_isResetting)
             return;
 
-        _rb.velocity = Dir * _spd;
+        _rb.velocity = _dir * _currentSpd;
 
         // If ball is stuck after fixed frames, teleport it a bit
-        if (Mathf.Approximately(_posPrevFrame.x, transform.position.x) &&
-            Mathf.Approximately(_posPrevFrame.y, transform.position.y))
+        if (Mathf.Approximately(_posPrevFrame.x, _tf.position.x) &&
+            Mathf.Approximately(_posPrevFrame.y, _tf.position.y))
         {
             ++_stuckCounter;
-            if (_stuckCounter >= 200)
+            if (_stuckCounter >= 50)
             {
                 _posPrevFrame.x += 0.1f;
-                transform.position = _posPrevFrame;
+                _tf.position = _posPrevFrame;
             }
         }
         else
         {
-            _posPrevFrame = transform.position;
+            _posPrevFrame = _tf.position;
             _stuckCounter = 0;
         }
 
@@ -114,41 +110,37 @@ public class BallController : MonoBehaviour
 
     public void Reset(bool leftWon)
     {
-        StartCoroutine(CO_Reset(leftWon));
-    }
-
-    public IEnumerator CO_Reset(bool leftWon)
-    {
-        GetComponent<Transform>().position = _originalPos;
+        _tf.position = _startPos;
 
         // If vec is too horizontal, ball will ping pong between pads, which isn't fun. So, add more angles.
-        Dir = new Vector2(1.0f, Random.Range(-1.0f, 1.0f));
-        if (Dir.y < 0.3f && Dir.y > 0.0f)
-            Dir.y += 0.3f;
-        else if (Dir.y > -0.3f && Dir.y <= 0.0f)
-            Dir.y -= 0.3f;
-        Dir.Normalize();
+        _dir = new Vector2(1.0f, Random.Range(-1.0f, 1.0f));
+        if (_dir.y < 0.3f && _dir.y > 0.0f)
+            _dir.y += 0.3f;
+        else if (_dir.y > -0.3f && _dir.y <= 0.0f)
+            _dir.y -= 0.3f;
+        _dir.Normalize();
 
         if (!leftWon)
-            Dir.x *= -1.0f;
+            _dir.x *= -1.0f;
 
-        _spd = _roundStartSpd;
+        _currentSpd = _roundStartSpd;
         _time = 0.0f;
         _rb.velocity = Vector2.zero;
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<TrailRenderer>().enabled = false;
         _stuckCounter = 0;
         _isResetting = true;
-        yield return new WaitForSeconds(_gameSettingsSO.WaitTimeBetweenEachRound);
+
+        if (GameManager.Instance.CurrentState != GameState.kGameOverMenu)
+            StartCoroutine(CO_Reset(leftWon));
+    }
+
+    public IEnumerator CO_Reset(bool leftWon)
+    {
+        yield return _waitTimeBetweenRound;
         _isResetting = false;
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<TrailRenderer>().enabled = true;
-    }
-
-    void DisableMovement(GameState newState)
-    {
-        if (newState == GameState.kGameOverMenu)
-            enabled = false;
     }
 
 }

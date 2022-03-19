@@ -70,8 +70,12 @@ public sealed class GameManager : MonoBehaviour
             case GameState.kMainMenu:
             {
                 DOTween.KillAll();
-                IsInGame = false;
                 SceneManager.LoadSceneAsync("PongClone");
+                if (IsInGame)
+                {
+                    IsInGame = false;
+                }
+
                 break;
             }
             case GameState.kGameplay:
@@ -114,13 +118,12 @@ public sealed class GameManager : MonoBehaviour
         else
             ++ScoreRight;
 
-        RoundWasOver?.Invoke(leftWon);
-
         // We don't want a gameover in main menu
         if (CurrentState == GameState.kGameplay &&
             (ScoreLeft >= CurrentSettings.RoundCnt || ScoreRight >= CurrentSettings.RoundCnt))
             ChangeState(GameState.kGameOverMenu);
 
+        RoundWasOver?.Invoke(leftWon);
     }
 
     public void Resume()
@@ -137,11 +140,10 @@ public sealed class GameManager : MonoBehaviour
 
     public void Quit()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        if (Application.isEditor)
+            UnityEditor.EditorApplication.isPlaying = false;
+        else
+            Application.Quit();
     }
 
 }

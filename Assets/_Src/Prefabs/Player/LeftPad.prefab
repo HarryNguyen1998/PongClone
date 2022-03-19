@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6456568419866334912}
   - component: {fileID: 6456568419866334913}
   - component: {fileID: 6456568419866334918}
-  - component: {fileID: 6456568419866334915}
   - component: {fileID: 6456568419866334914}
+  - component: {fileID: 6456568419866334915}
   - component: {fileID: 8894321901853101830}
   - component: {fileID: 7325990580384723281}
   - component: {fileID: 500985121191999140}
@@ -114,22 +114,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &6456568419866334915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6456568419866334919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0216330ee680d6a45aa1a7125c3b15a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameSettingsChangedSO: {fileID: 11400000, guid: ddfc73cd370f8ff408a78719305ad712, type: 2}
-  _gameSettingsSO: {fileID: 11400000, guid: d7346547f7159b44c99d5953fd0a0ba6, type: 2}
-  _playerController: {fileID: 8894321901853101830}
-  _aiController: {fileID: 7325990580384723281}
 --- !u!50 &6456568419866334914
 Rigidbody2D:
   serializedVersion: 4
@@ -151,6 +135,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &6456568419866334915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6456568419866334919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0216330ee680d6a45aa1a7125c3b15a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8894321901853101830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,8 +159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2673daa441be852448df5d228414127b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputReader: {fileID: 11400000, guid: 37b1674be2e734c40806a683213b4bfc, type: 2}
-  _normal: {x: 0, y: 0}
 --- !u!114 &7325990580384723281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,8 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a4311a2e0792a14f90b779554162000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballYPos: 0
-  CurrentYPos: 0
 --- !u!114 &500985121191999140
 MonoBehaviour:
   m_ObjectHideFlags: 0

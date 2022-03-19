@@ -7,7 +7,6 @@ TagManager:
   - ball
   - pad
   - wall
-  - roundOver
   layers:
   - Default
   - TransparentFX
