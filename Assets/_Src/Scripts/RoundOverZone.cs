@@ -10,9 +10,9 @@ public class RoundOverZone : MonoBehaviour
         if (collision.collider.CompareTag(GameTags.Ball))
         {
             if (IsLeftZone)
-                GameManager.Instance.IncrementScore(false);
+                GameStateEventRelayer.Instance.IncrementScore(false);
             else
-                GameManager.Instance.IncrementScore(true);
+                GameStateEventRelayer.Instance.IncrementScore(true);
         }
 
     }

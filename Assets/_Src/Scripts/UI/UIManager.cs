@@ -1,74 +1,27 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    ModalWindowPanel _modalWindowPanel;
-    List<MenuData> _menus = new List<MenuData>();
+    [SerializeField] List<MenuData> _menus = new List<MenuData>();
     MenuData _lastActiveMenu;
 
-    public static UIManager Instance { get; private set; }
-    void Awake()
+    void Start()
     {
-        if (!Instance)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        _menus.ForEach(menu => menu.gameObject.SetActive(false));
+        _lastActiveMenu = _menus.Find(menu => menu.MenuType == GameStateEventRelayer.Instance.PeekState());
+        _lastActiveMenu.gameObject.SetActive(true);
     }
 
     void OnEnable()
     {
-        GameManager.Instance.GameStateChanged += SwitchTo;
-        SceneManager.sceneLoaded += InitMenus;
+        GameStateEventHandler.Instance.GameStateChanged += SwitchTo;
     }
 
     void OnDisable()
     {
-        GameManager.Instance.GameStateChanged -= SwitchTo;
-        SceneManager.sceneLoaded -= InitMenus;
-    }
-
-    public void InitMenus(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name != "PongClone")
-            return;
-
-        // @note This small delay makes it that menu's Start() won't be called until they become active!
-        StartCoroutine(CO_WaitTillMenusAreInit());
-
-        _menus.ForEach(menu => menu.gameObject.SetActive(false));
-        _lastActiveMenu = _menus.Find(menu => menu.MenuType == GameManager.Instance.CurrentState);
-        _lastActiveMenu.gameObject.SetActive(true);
-
-        _modalWindowPanel.gameObject.SetActive(false);
-    }
-
-    IEnumerator CO_WaitTillMenusAreInit()
-    {
-        yield return null;
-    }
-
-    public void RegisterMenu(MenuData menu)
-    {
-        _menus.Add(menu);
-    }
-
-    public void DeregisterMenu(MenuData menu)
-    {
-        _menus.Remove(menu);
-    }
-
-    public void RegisterModalWindow(ModalWindowPanel modal)
-    {
-        _modalWindowPanel = modal;
-    }
-
-    public void DeregisterModalWindow()
-    {
-        _modalWindowPanel = null;
+        GameStateEventHandler.Instance.GameStateChanged -= SwitchTo;
     }
 
     public void SwitchTo(GameState newMenu)
@@ -79,18 +32,6 @@ public class UIManager : MonoBehaviour
         _lastActiveMenu.gameObject.SetActive(false);
         _lastActiveMenu = _menus.Find(menu => menu.MenuType == newMenu);
         _lastActiveMenu.gameObject.SetActive(true);
-    }
-
-    public void FromMainMenuBtn()
-    {
-        ShowApplyOrNo(GameState.kMainMenu);
-    }
-
-    public void ShowApplyOrNo(GameState newState)
-    {
-        Assert.IsTrue(_lastActiveMenu.MenuType == GameState.kSettingsMenu);
-        _modalWindowPanel.MenuToSwitchBackTo = newState;
-        _modalWindowPanel.TryShow();
     }
 
 }

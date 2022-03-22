@@ -8,6 +8,7 @@ public class InputHandler : MonoBehaviour
     // References
     [SerializeField] PlayerController _player1;
     [SerializeField] PlayerController _player2;
+    [SerializeField] SettingsDialog _settingsDialog;
 
     // Class members
     GameInput _inputAsset;
@@ -26,7 +27,7 @@ public class InputHandler : MonoBehaviour
         _inputAsset.Player.Player2Move.performed += _player2.Move;
         _inputAsset.Player.Player2Move.canceled += _player2.Move;
 
-        GameManager.Instance.GameStateChanged += OnGameStateChanged;
+        GameStateEventHandler.Instance.GameStateChanged += OnGameStateChanged;
     }
 
     void OnDisable()
@@ -40,12 +41,12 @@ public class InputHandler : MonoBehaviour
         _inputAsset.Player.Player2Move.performed -= _player2.Move;
         _inputAsset.Player.Player2Move.canceled -= _player2.Move;
 
-        GameManager.Instance.GameStateChanged -= OnGameStateChanged;
+        GameStateEventHandler.Instance.GameStateChanged -= OnGameStateChanged;
     }
 
     void OnGameStateChanged(GameState newState)
     {
-        if (newState == GameState.kGameOverMenu)
+        if (newState == GameState.kGameOver)
         {
             _player1.GetComponent<ControllerSwitcher>().enabled = false;
             _player2.GetComponent<ControllerSwitcher>().enabled = false;
@@ -56,13 +57,9 @@ public class InputHandler : MonoBehaviour
 
     void OpenSettingsMenu(InputAction.CallbackContext ctx)
     {
-        if (!GameManager.Instance.IsInGame)
-            return;
-
-        if (GameManager.Instance.CurrentState != GameState.kSettingsMenu)
-
-            GameManager.Instance.ChangeState(GameState.kSettingsMenu);
+        if (GameStateEventRelayer.Instance.PeekState() == GameState.kSettings)
+            _settingsDialog.TryShowPrompt(GameState.kNone);
         else
-            UIManager.Instance.ShowApplyOrNo(GameState.kGameplay);
+            GameStateEventRelayer.Instance.ChangeState(GameState.kSettings, true);
     }
 }

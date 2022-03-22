@@ -51,19 +51,19 @@ public class BallController : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.RoundWasOver += Reset;
+        GameStateEventRelayer.Instance.RoundWasOver += Reset;
     }
 
     void OnDestroy()
     {
-        GameManager.Instance.RoundWasOver -= Reset;
+        GameStateEventRelayer.Instance.RoundWasOver -= Reset;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag(GameTags.Pad))
         {
-            _currentSpd = GameManager.Instance.CurrentSettings.BallSpd;
+            _currentSpd = GameStateEventRelayer.Instance.CurrentSettings.BallSpd;
             _dir = Vector2.Reflect(_dir, collision.GetContact(0).normal);
 
             // Every 7s increases ball speed by _addedAmount
@@ -131,7 +131,7 @@ public class BallController : MonoBehaviour
         _stuckCounter = 0;
         _isResetting = true;
 
-        if (GameManager.Instance.CurrentState != GameState.kGameOverMenu)
+        if (GameStateEventRelayer.Instance.PeekState() != GameState.kGameOver)
             StartCoroutine(CO_Reset(leftWon));
     }
 

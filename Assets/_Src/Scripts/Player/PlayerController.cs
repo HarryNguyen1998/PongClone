@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rb.velocity = _dir * GameManager.Instance.CurrentSettings.PadSpd;
+        _rb.velocity = _dir * GameStateEventRelayer.Instance.CurrentSettings.PadSpd;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

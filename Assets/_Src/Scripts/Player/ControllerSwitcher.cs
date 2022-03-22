@@ -38,14 +38,14 @@ public class ControllerSwitcher : MonoBehaviour
     {
         if (_padData.IsLeftPad)
         {
-            if (GameManager.Instance.CurrentSettings.IsLeftPadAIControlled)
+            if (GameStateEventRelayer.Instance.CurrentSettings.IsLeftPadAIControlled)
                 UseAIController();
             else
                 UsePlayerController();
         }
         else
         {
-            if (GameManager.Instance.CurrentSettings.IsRightPadAIControlled)
+            if (GameStateEventRelayer.Instance.CurrentSettings.IsRightPadAIControlled)
                 UseAIController();
             else
                 UsePlayerController();

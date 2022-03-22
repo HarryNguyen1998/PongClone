@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 540050107600495453}
-  - component: {fileID: 4360584325456692600}
-  - component: {fileID: 5266565107988198582}
+  - component: {fileID: 842761465056368412}
+  - component: {fileID: 4598636137664609663}
+  - component: {fileID: 1177560157603794378}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4360584325456692600
+--- !u!114 &842761465056368412
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +42,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1376265126290216615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c28b43b1184f154281918fb94b024b3, type: 3}
+  m_Script: {fileID: 11500000, guid: fe8012362b8c37a4ea87f655cdfda40b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 1177560157603794378}
   _gameSettingsSO: {fileID: 11400000, guid: d7346547f7159b44c99d5953fd0a0ba6, type: 2}
---- !u!114 &5266565107988198582
+--- !u!114 &4598636137664609663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,6 +56,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1376265126290216615}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f010027959600e14781f3e08940ff7ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 1da5e8f744f6930498a9d8a642e72c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1177560157603794378
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376265126290216615}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1ce5918c5bdfb1a45965c85ff5a4f4a0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

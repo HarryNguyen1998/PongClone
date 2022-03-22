@@ -26,16 +26,19 @@ public class AIController : MonoBehaviour
     {
         // Only move if the ball is moving towards you
         if (Vector2.Dot(_padData.Normal, _ballC.Dir) > 0.0f)
-            return;
-
-        // @note Perhaps may add noise for speed, or reaction time to make it more natural?
-        if (_ballTf.position.y > (_tf.position.y + 0.3f))
-            _dir = Vector2.up;
-        else if (_ballTf.position.y < (_tf.position.y - 0.3f))
-            _dir = Vector2.down;
-        else
             _dir = Vector2.zero;
-        _rb.velocity = Vector2.Lerp(_rb.velocity, _dir * GameManager.Instance.CurrentSettings.PadSpd, 0.15f);
+        else
+        {
+            // @note Perhaps may add noise for speed, or reaction time to make it more natural?
+            if (_ballTf.position.y > (_tf.position.y + 0.3f))
+                _dir = Vector2.up;
+            else if (_ballTf.position.y < (_tf.position.y - 0.3f))
+                _dir = Vector2.down;
+            else
+                _dir = Vector2.zero;
+        }
+
+        _rb.velocity = Vector2.Lerp(_rb.velocity, _dir * GameStateEventRelayer.Instance.CurrentSettings.PadSpd, 0.1f);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

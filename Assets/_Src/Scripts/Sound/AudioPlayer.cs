@@ -12,14 +12,14 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField, Range(0.0f, 1.0f)] float _ballHitPadVol;
     [SerializeField, Range(0.0f, 1.0f)] float _roundOverVol;
 
-    private void OnEnable()
+    void OnEnable()
     {
-        GameManager.Instance.RoundWasOver += PlayClip;
+        GameStateEventRelayer.Instance.RoundWasOver += PlayClip;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        GameManager.Instance.RoundWasOver -= PlayClip;
+        GameStateEventRelayer.Instance.RoundWasOver -= PlayClip;
     }
 
     public void PlayBallHitPadClip()
@@ -29,6 +29,10 @@ public class AudioPlayer : MonoBehaviour
 
     void PlayClip(bool leftWon)
     {
+        if (!GameStateEventRelayer.Instance.IsInGame() &&
+            GameStateEventRelayer.Instance.PeekState() != GameState.kGameOver)
+            return;
+
         if (leftWon)
             AudioSource.PlayClipAtPoint(_roundOverLeft, Camera.main.transform.position, _roundOverVol);
         else

@@ -114,8 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da37bbde93e82fa448a9560530c898f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MenuToSwitchBackTo: 0
-  _gameStateChangedSO: {fileID: 11400000, guid: 4de1981f571617f4a949bddd81536593, type: 2}
   _settingsDialog: {fileID: 0}
 --- !u!1 &8146219649513196702
 GameObject:
@@ -359,8 +357,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Do you wish to apply your new settings?
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
-  m_sharedMaterial: {fileID: 6996986596012405394, guid: b3fca49e7bf589d40b26bac339b7ac6e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
+  m_sharedMaterial: {fileID: -2668739835290164794, guid: ca2b3c3932f06cb42a6dcd344737cb1b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -384,8 +382,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 21
+  m_fontSizeBase: 21
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -660,6 +658,18 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4284875007
       objectReference: {fileID: 0}
+    - target: {fileID: 8350600861370818455, guid: a608efc5c9a7b334e9b3fd2669abddeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8146219649397058251}
+    - target: {fileID: 8350600861370818455, guid: a608efc5c9a7b334e9b3fd2669abddeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350600861370818455, guid: a608efc5c9a7b334e9b3fd2669abddeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ModalWindowPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8350600861370818456, guid: a608efc5c9a7b334e9b3fd2669abddeb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -748,7 +758,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: NoBtn
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3539460858841435195, guid: a608efc5c9a7b334e9b3fd2669abddeb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a608efc5c9a7b334e9b3fd2669abddeb, type: 3}
 --- !u!224 &211216875617623680 stripped
 RectTransform:

@@ -23,14 +23,14 @@ public class GameplayDialog : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.RoundWasOver += DisplayPlayerWon;
+        GameStateEventRelayer.Instance.RoundWasOver += DisplayPlayerWon;
         SettingsDialog.GameSettingsChanged += ShowRoundCnt;
     }
 
     void OnDisable()
     {
         SettingsDialog.GameSettingsChanged -= ShowRoundCnt;
-        GameManager.Instance.RoundWasOver -= DisplayPlayerWon;
+        GameStateEventRelayer.Instance.RoundWasOver -= DisplayPlayerWon;
     }
 
     void Start()
@@ -45,8 +45,8 @@ public class GameplayDialog : MonoBehaviour
 
     public void ShowRoundCnt()
     {
-        if (GameManager.Instance.IsInGame)
-            _roundCnt.text = "ROUNDS\n" + GameManager.Instance.CurrentSettings.RoundCnt.ToString();
+        if (GameStateEventRelayer.Instance.IsInGame())
+            _roundCnt.text = "ROUNDS\n" + GameStateEventRelayer.Instance.CurrentSettings.RoundCnt.ToString();
         else
             _roundCnt.text = "ROUNDS\n???";
     }
@@ -55,26 +55,26 @@ public class GameplayDialog : MonoBehaviour
     {
         if (leftWon)
         {
-            if (GameManager.Instance.CurrentState == GameState.kGameOverMenu)
+            if (GameStateEventRelayer.Instance.PeekState() == GameState.kGameOver)
             {
                 _leftPadWon.text = "VICTORY";
                 _rightPadWon.text = "DEFEATED";
                 _rightPadWon.gameObject.SetActive(true);
             }
 
-            StartCoroutine(Animate(_leftPadWon, _leftPadScore, GameManager.Instance.ScoreLeft,
+            StartCoroutine(Animate(_leftPadWon, _leftPadScore, GameStateEventRelayer.Instance.ScoreLeft,
                 Slider.Direction.LeftToRight, Slider.Direction.RightToLeft, _animationSettings.LeftPadMat.color));
         }
         else
         {
-            if (GameManager.Instance.CurrentState == GameState.kGameOverMenu)
+            if (GameStateEventRelayer.Instance.PeekState() == GameState.kGameOver)
             {
                 _leftPadWon.text = "DEFEATED";
                 _rightPadWon.text = "VICTORY";
                 _leftPadWon.gameObject.SetActive(true);
             }
 
-            StartCoroutine(Animate(_rightPadWon, _rightPadScore, GameManager.Instance.ScoreRight,
+            StartCoroutine(Animate(_rightPadWon, _rightPadScore, GameStateEventRelayer.Instance.ScoreRight,
                 Slider.Direction.RightToLeft, Slider.Direction.LeftToRight, _animationSettings.RightPadMat.color));
         }
     }
@@ -96,7 +96,7 @@ public class GameplayDialog : MonoBehaviour
         wonText.DOFade(0.0f, _animationSettings.AnimationCycle).SetEase(Ease.InOutSine).SetLoops(4, LoopType.Yoyo)
             .OnComplete(() =>
         {
-            if (GameManager.Instance.CurrentState != GameState.kGameOverMenu)
+            if (GameStateEventRelayer.Instance.PeekState() != GameState.kGameOver)
                 wonText.gameObject.SetActive(false);
         });
 

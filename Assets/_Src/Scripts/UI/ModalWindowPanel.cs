@@ -2,31 +2,18 @@ using UnityEngine;
 
 public class ModalWindowPanel : MonoBehaviour
 {
-    public GameState MenuToSwitchBackTo;
-
-    [SerializeField] SettingsDialog _settingsDialog;
-
-    private void Awake()
+    void Start()
     {
-        UIManager.Instance.RegisterModalWindow(this);
+        Close();
     }
 
-    private void OnDestroy()
+    public void Show()
     {
-        UIManager.Instance.DeregisterModalWindow();
-    }
-
-    public void TryShow()
-    {
-        if (_settingsDialog.IsDirty)
-            gameObject.SetActive(true);
-        else
-            Close();
+        gameObject.SetActive(true);
     }
 
     public void Close()
     {
-        GameManager.Instance.ChangeState(MenuToSwitchBackTo);
         gameObject.SetActive(false);
     }
 }
