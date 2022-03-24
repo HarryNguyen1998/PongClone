@@ -65,10 +65,11 @@ public class GameStateEventHandler : MonoBehaviour
                 break;
             case GameState.kQuit:
             {
-                if (Application.isEditor)
+#if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
-                else
+#else
                     Application.Quit();
+#endif
                 break;
             }
         }

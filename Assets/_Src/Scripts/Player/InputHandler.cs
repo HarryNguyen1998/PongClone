@@ -58,7 +58,7 @@ public class InputHandler : MonoBehaviour
     void OpenSettingsMenu(InputAction.CallbackContext ctx)
     {
         if (GameStateEventRelayer.Instance.PeekState() == GameState.kSettings)
-            _settingsDialog.TryShowPrompt(GameState.kNone);
+            _settingsDialog.TryShowPrompt();
         else
             GameStateEventRelayer.Instance.ChangeState(GameState.kSettings, true);
     }

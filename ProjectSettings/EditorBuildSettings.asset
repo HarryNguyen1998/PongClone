@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/_Src/Scenes/Preload.unity
-    guid: 5fe5f29660b15484aadeb2637d9872c4
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_Src/Scenes/PongClone.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab

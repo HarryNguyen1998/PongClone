@@ -56,37 +56,49 @@ public class GameStateEventRelayer : MonoBehaviour
         return _stateStack[_stateStack.Count - 1];
     }
 
+    // Only use this for 1 state transition. If you have 2 state, use PopState instead
     public void ChangeState(GameState newState = GameState.kNone, bool shouldAppend = false)
     {
-        PrevState = PeekState();
         if (newState == GameState.kNone)
         {
-            // Settings -> MainMenu through keyboard btn
-            Assert.IsTrue(_stateStack.Count == 2, "State stack should never be empty.");
-            _stateStack.RemoveAt(_stateStack.Count - 1);
-
+            // This is case 1 of PopState
         }
         else
         {
-            // MainMenu -> Settings
+            Assert.IsTrue(_stateStack.Count == 1, "State stack should only have 1 or 2 states at all times.");
+
+            PrevState = PeekState();
+            // 1 state transition to Settings, e.g., MainMenu -> Settings
             if (shouldAppend)
-            {
-                Assert.IsTrue(_stateStack.Count == 1, "State stack should only have 1 or 2 states at all times.");
                 _stateStack.Add(newState);
-            }
-            // MainMenu -> Gameplay, or currently in Gameplay -> Settings, want to go to MainMenu
+            // 1 state transition, e.g., MainMenu -> Gameplay
             else
             {
-                // If MainMenu -> Gameplay then nothing, else it's SomeState + Settings, so
-                // SomeState is last state
-                if (_stateStack.Count == 2)
-                    PrevState = _stateStack[0];
-                _stateStack.Clear();
+                _stateStack.RemoveAt(_stateStack.Count - 1);
                 _stateStack.Add(newState);
             }
         }
 
         InformFSM();
+    }
+
+    // Case 1: Gameplay+Settings, pop back to Gameplay, then pass in stateToReplace=kNone (keyboard)
+    // or stateToReplace = PeekState() (menu)
+    // Case 2: Gameplay+Settings, you want to go to MainMenu, then pass stateToReplace=MainMenu,
+    // PopState() pops Settings, and ChangeState will replace the last state to MainMenu, as intended
+    public void PopState(GameState stateToReplace = GameState.kNone)
+    {
+        Assert.IsTrue(_stateStack.Count == 2, "State stack should never be empty.");
+        PrevState = PeekState();
+        _stateStack.RemoveAt(_stateStack.Count - 1);
+
+        // Case 1
+        if (stateToReplace == GameState.kNone ||
+            stateToReplace == PeekState())
+            ChangeState(GameState.kNone);
+        // Case 2
+        else
+            ChangeState(stateToReplace);
     }
 
     public bool IsInGame()
@@ -124,22 +136,23 @@ public class GameStateEventRelayer : MonoBehaviour
 
     void InformFSM()
     {
+        this.Log(msg: $"Prev {PrevState}, Current {PeekState()}");
         switch (_stateStack[_stateStack.Count - 1])
         {
             case GameState.kMainMenu:
-                _animator.SetTrigger("MainMenu");
+                _animator.SetTrigger(Animator.StringToHash("MainMenu"));
                 break;
             case GameState.kGameplay:
-                _animator.SetTrigger("Gameplay");
+                _animator.SetTrigger(Animator.StringToHash("Gameplay"));
                 break;
             case GameState.kSettings:
-                _animator.SetTrigger("Settings");
+                _animator.SetTrigger(Animator.StringToHash("Settings"));
                 break;
             case GameState.kGameOver:
-                _animator.SetTrigger("GameOver");
+                _animator.SetTrigger(Animator.StringToHash("GameOver"));
                 break;
             case GameState.kQuit:
-                _animator.SetTrigger("Quit");
+                _animator.SetTrigger(Animator.StringToHash("Quit"));
                 break;
         }
     }

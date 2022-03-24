@@ -8,7 +8,7 @@ public class GameSettings : ScriptableObject
     public Material LeftPadMat;
     public Material RightPadMat;
     public float AnimationCycle;
-    public GameplaySettingsPOD DefaultSettings = new GameplaySettingsPOD(true, true, 3, 16, 18, 2, 1.777778f, false);
+    public GameplaySettingsPOD DefaultSettings = new GameplaySettingsPOD(true, true, 3, 16, 18);
 
     public float WaitTimeBetweenRound
     {

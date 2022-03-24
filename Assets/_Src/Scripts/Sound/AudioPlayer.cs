@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class AudioPlayer : MonoBehaviour
 {
+    [SerializeField] Transform _camTf;
     [Header("Contents")]
     // References
     [SerializeField] AudioClip _ballHitPadClip;
@@ -24,7 +25,7 @@ public class AudioPlayer : MonoBehaviour
 
     public void PlayBallHitPadClip()
     {
-        AudioSource.PlayClipAtPoint(_ballHitPadClip, Camera.main.transform.position, _ballHitPadVol);
+        AudioSource.PlayClipAtPoint(_ballHitPadClip, _camTf.position, _ballHitPadVol);
     }
 
     void PlayClip(bool leftWon)
@@ -34,9 +35,9 @@ public class AudioPlayer : MonoBehaviour
             return;
 
         if (leftWon)
-            AudioSource.PlayClipAtPoint(_roundOverLeft, Camera.main.transform.position, _roundOverVol);
+            AudioSource.PlayClipAtPoint(_roundOverLeft, _camTf.position, _roundOverVol);
         else
-            AudioSource.PlayClipAtPoint(_roundOverRight, Camera.main.transform.position, _roundOverVol);
+            AudioSource.PlayClipAtPoint(_roundOverRight, _camTf.position, _roundOverVol);
 
     }
 }

@@ -9,20 +9,14 @@ public struct GameplaySettingsPOD
     public int RoundCnt;
     public float PadSpd;
     public float BallSpd;
-    public int ResolutionIndex;
-    public float AspectRatio;
-    public bool IsFullScreen;
 
-    public GameplaySettingsPOD(bool leftPadAI, bool rightPadAI, int roundCnt, int padSpd, int ballSpd, int resolutionIndex, float aspectRatio, bool isFullScreen)
+    public GameplaySettingsPOD(bool leftPadAI, bool rightPadAI, int roundCnt, int padSpd, int ballSpd)
     {
         IsLeftPadAIControlled = leftPadAI;
         IsRightPadAIControlled = rightPadAI;
         RoundCnt = roundCnt;
         PadSpd = padSpd;
         BallSpd = ballSpd;
-        ResolutionIndex = resolutionIndex;
-        AspectRatio = aspectRatio;
-        IsFullScreen = isFullScreen;
     }
 
     // @todo Perhaps add a save/load from file Config?
