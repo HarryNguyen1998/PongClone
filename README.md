@@ -1,15 +1,13 @@
 A clone of the game Pong, made in Unity. You could read my postmortem [here](https://harrynguyen1998.github.io/blog/pong)
 
-![](images/gameplay-preview.gif)
+![](Images/gameplay-preview.gif)
 
 You can play a WebGL version of the game [here](https://harrynguyen.itch.io/pong-clone)
 
 <table><tr>
-<td> <img src="images/wireframe.png" alt="Drawing" style="width: 250px;"/> </td>
-<td> <img src="images/z-buffer.png" alt="Drawing" style="width: 250px;"/> </td>
-<td> <img src="images/flat-shading.png" alt="Drawing" style="width: 250px;"/> </td>
-<td> <img src="images/texture-and-flat-shading.png" alt="Drawing" style="width: 250px;"/> </td>
-<td> <img src="images/full-view.png" alt="Drawing" style="width: 250px;"/> </td>
+<td> <img src="Images/GameOver.png" alt="GameOver" style="width: 250px;"/> </td>
+<td> <img src="Images/Gameplay.png" alt="Gameplay" style="width: 250px;"/> </td>
+<td> <img src="Images/Thumbnail.png" alt="Thumbnail" style="width: 250px;"/> </td>
 </tr></table>
 
 
